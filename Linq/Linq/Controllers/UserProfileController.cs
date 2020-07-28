@@ -21,7 +21,7 @@ namespace Linq.Controllers
         {
             _userProfileRepository = new UserProfileRepository(context);
         }
-
+        
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetByFirebaseUserId(string firebaseUserId)
         {

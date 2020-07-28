@@ -8,13 +8,15 @@ namespace Linq.Models
 {
     public class UserApprovedList
     {
+        public int Id { get; set; }
+
         [Required]
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
         
         [Required]
-        public int UserProfileId { get; set; }
+        public int SharedUserId { get; set; }
 
         public UserProfile UserProfile { get; set; }
     }
