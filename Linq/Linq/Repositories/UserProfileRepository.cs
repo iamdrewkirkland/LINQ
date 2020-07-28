@@ -1,4 +1,6 @@
 ﻿using Linq.Data;
+using Linq.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,6 @@ namespace Linq.Repositories
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
             return _context.UserProfile
-                .Include(up => up.UserType)
                 .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
         }
 
