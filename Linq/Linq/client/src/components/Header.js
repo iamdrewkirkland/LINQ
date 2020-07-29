@@ -19,14 +19,14 @@ export default function Header() {
   return (
     <div>
       <Navbar color="dark" dark expand="md">
-        <NavbarBrand tag={RRNavLink} to="/">Grace Hopper Wisdom</NavbarBrand>
+        <NavbarBrand tag={RRNavLink} to="/">LINQ</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             {isLoggedIn &&
               <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/add">Add Quote</NavLink>
+                  <NavLink tag={RRNavLink} to="/links">Links</NavLink>
                 </NavItem>
                 <NavItem>
                   <a aria-current="page" className="nav-link"
