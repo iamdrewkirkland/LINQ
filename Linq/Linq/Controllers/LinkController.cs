@@ -33,6 +33,37 @@ namespace Linq.Controllers
             return Ok(_linkRepository.GetByUserId(currentUser.Id));
         }
 
+        [HttpPost]
+        public IActionResult Post(Link link)
+        {
+            var currentUser = GetCurrentUserProfile();
+            link.UserProfileId = currentUser.Id;
+            _linkRepository.Add(link);
+            return CreatedAtAction("Get", new { id = link.Id }, link);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Link link)
+        {
+            var currentUser = GetCurrentUserProfile();
+            link.UserProfileId = currentUser.Id;
+            if (id != link.Id)
+            {
+                return BadRequest();
+            }
+
+            _linkRepository.Update(link);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _linkRepository.Delete(id);
+            return NoContent();
+        }
+
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
