@@ -26,6 +26,14 @@ namespace Linq.Repositories
         //                .ToList();
         //}
 
+        public Link GetById(int id)
+        {
+            return _context.Links
+                            .Include(l => l.Category)
+                            .Include(l => l.UserProfile)
+                            .FirstOrDefault(l => l.Id == id);
+        }
+
         public List<Link> GetByUserId(int id)
         { 
             return _context.Links
@@ -35,7 +43,25 @@ namespace Linq.Repositories
                             .OrderByDescending(l => l.CreateDate)
                             .ToList();
         }
+        public void Add(Link link)
+        {
+            _context.Add(link);
+            _context.SaveChanges();
+        }
+
+        public void Update(Link link)
+        {
+            _context.Entry(link).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var link = GetById(id);
             
+            _context.Links.Remove(link);
+            _context.SaveChanges();
+        }
 
 
 
