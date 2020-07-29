@@ -32,6 +32,22 @@ namespace Linq.Controllers
             var currentUser = GetCurrentUserProfile();
             return Ok(_linkRepository.GetByUserId(currentUser.Id));
         }
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var link = _linkRepository.GetById(id);
+            var currentUser = GetCurrentUserProfile();
+
+            if (link.UserProfileId != currentUser.Id)
+            {
+                return BadRequest();
+            }
+            if (link == null)
+            {
+                return NotFound();
+            }
+            return Ok(link);
+        }
 
         [HttpPost]
         public IActionResult Post(Link link)
