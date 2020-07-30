@@ -12,9 +12,8 @@ namespace Linq.Models
         [Required]
         [MaxLength(55)]
         public string Name { get; set; }
-        
         [StringLength(7, MinimumLength = 7)]
-        public string Color { get; set; }
+        public string? Color { get; set; }
         [Required]
         public Boolean IsPublic { get; set; }
         [Required]
