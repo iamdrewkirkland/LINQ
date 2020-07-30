@@ -5,6 +5,7 @@ import App from './App';
 import * as firebase from "firebase/app";
 import * as serviceWorker from './serviceWorker';
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
