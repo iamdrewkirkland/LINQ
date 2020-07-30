@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
 import {
   Collapse,
@@ -7,8 +7,8 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
-} from 'reactstrap';
+  NavLink,
+} from "reactstrap";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 export default function Header() {
@@ -19,37 +19,46 @@ export default function Header() {
   return (
     <div>
       <Navbar color="dark" dark expand="md">
-        <NavbarBrand tag={RRNavLink} to="/">LINQ</NavbarBrand>
+        <NavbarBrand tag={RRNavLink} to="/">
+          LINQ
+        </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            {isLoggedIn &&
+            {isLoggedIn && (
               <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/links">Links</NavLink>
-                </NavItem>
-                <NavItem>
-                  <a aria-current="page" className="nav-link"
-                    style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
+                  <NavLink tag={RRNavLink} to="/links">
+                    Links
+                  </NavLink>
                 </NavItem>
               </>
-            }
-            {!isLoggedIn &&
+            )}
+            {!isLoggedIn && (
               <>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/login">Login</NavLink>
+                  <NavLink tag={RRNavLink} to="/login">
+                    Login
+                  </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/register">Register</NavLink>
+                  <NavLink tag={RRNavLink} to="/register">
+                    Register
+                  </NavLink>
                 </NavItem>
               </>
-            }
+            )}
           </Nav>
           <Nav navbar>
             <NavItem>
-              <a aria-current="page" className="nav-link"
-                href="https://www.youtube.com/watch?v=3N_ywhx6_K0"
-                target="_new">Grace Hopper on Letterman</a>
+              <a
+                aria-current="page"
+                className="nav-link"
+                style={{ cursor: "pointer" }}
+                onClick={logout}
+              >
+                Logout
+              </a>
             </NavItem>
           </Nav>
         </Collapse>

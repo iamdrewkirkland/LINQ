@@ -1,14 +1,14 @@
-import React, { useContext, useEffect } from "react";
-import { Button } from "reactstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Collapse } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import { LinkContext } from "../../providers/LinkProvider";
-import Link from "./Link";
-
-
 import BootstrapTable from "react-bootstrap-table-next";
+import NewLinkForm from "./NewLinkForm";
+
 export default function LinkList() {
   const { links, getLinks } = useContext(LinkContext);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
   const history = useHistory();
   //   const handleLink = () => {history.push(`/userProfiles/list/deactivated`);};
 
@@ -40,44 +40,34 @@ export default function LinkList() {
       text: "Date Added",
     },
   ];
-  const data = [];
 
   // Setting the values of the table rows
+  const data = [];
+
   links.map((link) => {
     const currentLink = {
-      favorite: `${(link.isFavorite) ? "YES" : "NO" }`,
+      favorite: `${link.isFavorite ? "YES" : "NO"}`,
       category: link.category.name,
       title: link.title,
       url: link.url,
       createDate: link.createDate,
     };
-    debugger
     data.push(currentLink);
   });
 
   return (
     <>
       <div>
-        <h2>Links Go Brrrrr</h2>
+        <h2>LINKS GO BRRRRRRRRR</h2>
       </div>
       <section>
-        <Button className="m-3" onClick="">
-          ADD LINK
+        <Button className="m-3" onClick={toggle}>
+          Add Link
         </Button>
+        <Collapse isOpen={isOpen}>
+          <NewLinkForm />
+        </Collapse>
         <BootstrapTable keyField="id" data={data} columns={columns} />
-
-        {/* <ListGroup horizontal>
-          <h5>Favorite</h5>
-          <h5>Title</h5>
-          <h5>URL</h5>
-          <h5>Category</h5>
-          <h5>Date Added</h5>
-        </ListGroup>
-        <ListGroup horizontal>
-          {links.map((link) => (
-          <Link key={link.id} link={link} columns={columns} />
-        ))}
-        </ListGroup> */}
       </section>
     </>
   );
