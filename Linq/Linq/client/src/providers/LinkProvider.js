@@ -42,7 +42,7 @@ export const LinkProvider = (props) => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(link),
-      })
+      }).then(getLinks)
     );
 
   const deleteLink = (id) =>

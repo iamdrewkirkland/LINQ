@@ -55,10 +55,9 @@ namespace Linq.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(Link link)
         {
-            var link = GetById(id);
-            
+                        
             _context.Links.Remove(link);
             _context.SaveChanges();
         }

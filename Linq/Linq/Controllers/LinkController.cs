@@ -40,7 +40,7 @@ namespace Linq.Controllers
 
             if (link.UserProfileId != currentUser.Id)
             {
-                return BadRequest();
+                return Unauthorized();
             }
             if (link == null)
             {
@@ -54,6 +54,7 @@ namespace Linq.Controllers
         {
             var currentUser = GetCurrentUserProfile();
             link.UserProfileId = currentUser.Id;
+            link.CreateDate = DateTime.Now;
             _linkRepository.Add(link);
             return CreatedAtAction("Get", new { id = link.Id }, link);
         }
@@ -75,7 +76,13 @@ namespace Linq.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _linkRepository.Delete(id);
+            var currentUser = GetCurrentUserProfile();
+            var link = _linkRepository.GetById(id);
+            if (link.UserProfileId != currentUser.Id)
+            {
+                return Unauthorized();
+            }
+            _linkRepository.Delete(link);
             return NoContent();
         }
 

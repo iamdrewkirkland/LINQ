@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { LinkContext } from "../../providers/LinkProvider";
 import BootstrapTable from "react-bootstrap-table-next";
 import NewLinkForm from "./NewLinkForm";
+import MissingLinks from "./MissingLinks";
 
 export default function LinkList() {
   const { links, getLinks } = useContext(LinkContext);
@@ -22,22 +23,27 @@ export default function LinkList() {
     {
       dataField: "favorite",
       text: "Favorite?",
+      sort: true,
     },
     {
       dataField: "category",
       text: "Category",
+      sort: true,
     },
     {
       dataField: "title",
       text: "Title",
+      sort: true,
     },
     {
       dataField: "url",
       text: "URL",
+      sort: true,
     },
     {
       dataField: "createDate",
       text: "Date Added",
+      sort: true,
     },
   ];
 
@@ -47,13 +53,14 @@ export default function LinkList() {
   links.map((link) => {
     const currentLink = {
       favorite: `${link.isFavorite ? "YES" : "NO"}`,
-      category: link.category.name,
+      category: `${link.category ? link.category.name : "" }`,
       title: link.title,
       url: link.url,
       createDate: link.createDate,
     };
     data.push(currentLink);
   });
+  
 
   return (
     <>
@@ -67,7 +74,19 @@ export default function LinkList() {
         <Collapse isOpen={isOpen}>
           <NewLinkForm />
         </Collapse>
-        <BootstrapTable keyField="id" data={data} columns={columns} />
+        {links.length > 0 ? (
+          <BootstrapTable
+            keyField="id"
+            data={data}
+            columns={columns}
+            bootstrap4={true}
+            condensed={true}
+            hover={true}
+            noDataIndication={"Add a link to get started!"}
+          />
+        ) : (
+          <MissingLinks />
+        )}
       </section>
     </>
   );

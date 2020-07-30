@@ -15,7 +15,6 @@ namespace Linq.Models
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(28)]
         public string Url { get; set; }
 
         [Required]
@@ -24,7 +23,7 @@ namespace Linq.Models
         [Required]
         public DateTime CreateDate { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         public Category Category { get; set; }
         public int UserProfileId { get; set; }
