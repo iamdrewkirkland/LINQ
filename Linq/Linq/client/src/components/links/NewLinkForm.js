@@ -1,32 +1,52 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Container, Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  Button,
+  Container,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  
+} from "reactstrap";
 import Toggle from "react-toggle";
 import { LinkContext } from "../../providers/LinkProvider";
-export default function NewLinkForm() {
+
+export default function NewLinkForm({ categories }) {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-    const {addLink} = useContext(LinkContext);
+  const [categoryId, setCategoryId] = useState();
+  const [favorite, setFavorite] = useState(false);
+  const { addLink } = useContext(LinkContext);
+
+  function toggleFavorite() {
+    setFavorite(!favorite);
+  }
 
   function submitLink(e) {
     e.preventDefault();
-    
+
     // establish a new link object for submission
     const newLink = {
       title: title,
       url: url,
+      categoryId: categoryId,
+      isFavorite: favorite,
     };
-    addLink(newLink)
+    debugger;
 
+    addLink(newLink);
   }
 
   return (
     <>
       <Container className="m-3">
         <h4>add a new link</h4>
-        <Form className="pt-2">
+        <Form className="pt-2" onSubmit={submitLink}>
           <FormGroup>
             <Label for="form--title">Title</Label>
             <Input
+              required
               type="text"
               name="title"
               id="form--title"
@@ -38,13 +58,17 @@ export default function NewLinkForm() {
           <FormGroup>
             <Label for="form--url">URL</Label>
             <Input
+              required
               type="url"
               name="title"
               id="form--url"
               value={url}
               onInput={(e) => setUrl(e.target.value)}
-              placeholder="URL goes here"
+              placeholder="http://www.someURL.com"
             />
+            <FormText color="muted">
+              Your link needs to include the HTTP prefix (http:// or https://)
+            </FormText>
           </FormGroup>
           <FormGroup>
             <Label for="form--category">Category</Label>
@@ -53,28 +77,39 @@ export default function NewLinkForm() {
               name="category"
               id="form--category"
               placeholder="select a category"
+              defaultValue={0}
+              onChange={(e) => {
+                if (e.target.value !== "0") {
+                  setCategoryId(e.target.value);
+                } else {
+                  setCategoryId(null);
+                }
+              }}
             >
-              <option>MAP OVER CATEGORIES HERE</option>
+              {" "}
+              <option value={0}>Select Category</option>
+              {categories.map((category) => {
+                return <option value={category.id}>{category.name}</option>;
+              })}
             </Input>
+            <FormText color="muted">
+              You do not need to choose a category - you can edit this later
+            </FormText>
           </FormGroup>
-          <FormGroup check>
-            <Label check>
-              <Input type="checkbox" />
-              Favorite?
-            </Label>
-            {/* <Toggle
+          <FormGroup>
+          <Toggle
               id="form--favorite"
               name="isFavorite"
-              //   checked={this.state.isFavorite}
-              //   value='no'
-              //   icons={false}
-              //   onChange={this.handleChange}
-            /> */}
+              value={favorite}
+              onChange={toggleFavorite}
+            />
+            <FormText color="muted">
+              Toggle to set link as favorite
+            </FormText>
           </FormGroup>
-          <Button onClick={submitLink}>Submit</Button>
+          <Button type="submit">Submit</Button>
         </Form>
       </Container>
-      ;
     </>
   );
 }

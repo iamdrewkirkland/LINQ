@@ -18,12 +18,15 @@ namespace Linq.Controllers
 
         private readonly LinkRepository _linkRepository;
         private readonly UserProfileRepository _userProfileRepository;
-        
+        private readonly CategoryRepository _categoryRepository;
+
+
         public LinkController(ApplicationDbContext context)
         {
             _linkRepository = new LinkRepository(context);
             _userProfileRepository = new UserProfileRepository(context);
-            
+            _categoryRepository = new CategoryRepository(context);
+
         }
 
         [HttpGet]
@@ -53,6 +56,18 @@ namespace Linq.Controllers
         public IActionResult Post(Link link)
         {
             var currentUser = GetCurrentUserProfile();
+            if (link.CategoryId != null)
+            {
+                var category = _categoryRepository.GetById((int)link.CategoryId);
+                
+                if (category.UserProfileId != currentUser.Id)
+                {
+
+                    return BadRequest();
+
+                }
+            }
+            
             link.UserProfileId = currentUser.Id;
             link.CreateDate = DateTime.Now;
             _linkRepository.Add(link);

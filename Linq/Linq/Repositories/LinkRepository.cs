@@ -29,16 +29,16 @@ namespace Linq.Repositories
         public Link GetById(int id)
         {
             return _context.Links
-                            .Include(l => l.Category)
                             .Include(l => l.UserProfile)
+                            .Include(l => l.Category)
                             .FirstOrDefault(l => l.Id == id);
         }
 
         public List<Link> GetByUserId(int id)
         { 
             return _context.Links
-                            .Include(l => l.Category)
                             .Include(l => l.UserProfile)
+                            .Include(l => l.Category)
                             .Where(l => l.UserProfileId == id)
                             .OrderByDescending(l => l.CreateDate)
                             .ToList();

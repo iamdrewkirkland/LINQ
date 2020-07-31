@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Collapse } from "reactstrap";
+import { Button, Collapse, Container, Row } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import { LinkContext } from "../../providers/LinkProvider";
 import BootstrapTable from "react-bootstrap-table-next";
 import NewLinkForm from "./NewLinkForm";
 import MissingLinks from "./MissingLinks";
+import { CategoryContext } from "../../providers/CategoryProvider";
+import moment from 'moment';
 
 export default function LinkList() {
   const { links, getLinks } = useContext(LinkContext);
+  const { categories, getCategories } = useContext(CategoryContext);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const history = useHistory();
@@ -15,6 +18,7 @@ export default function LinkList() {
 
   useEffect(() => {
     getLinks();
+    getCategories();
     // eslint-disable-next-line
   }, []);
 
@@ -53,26 +57,26 @@ export default function LinkList() {
   links.map((link) => {
     const currentLink = {
       favorite: `${link.isFavorite ? "YES" : "NO"}`,
-      category: `${link.category ? link.category.name : "" }`,
+      category: `${link.category ? link.category.name : ""}`,
       title: link.title,
       url: link.url,
-      createDate: link.createDate,
+      createDate: moment(link.createDate).format('llll'),
     };
     data.push(currentLink);
   });
-  
 
   return (
     <>
-      <div>
-        <h2>LINKS GO BRRRRRRRRR</h2>
-      </div>
-      <section>
+      <Container>
+        <Row>
+          <h2>LINKS GO BRRRRRRRRR</h2>
+        </Row>
+
         <Button className="m-3" onClick={toggle}>
           Add Link
         </Button>
         <Collapse isOpen={isOpen}>
-          <NewLinkForm />
+          <NewLinkForm categories={categories} />
         </Collapse>
         {links.length > 0 ? (
           <BootstrapTable
@@ -87,7 +91,7 @@ export default function LinkList() {
         ) : (
           <MissingLinks />
         )}
-      </section>
+      </Container>
     </>
   );
 }

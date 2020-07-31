@@ -5,9 +5,7 @@ export const CategoryContext = React.createContext();
 
 export const CategoryProvider = (props) => {
   const [categories, setCategories] = useState([]);
-
   const { getToken } = useContext(UserProfileContext);
-
   const apiUrl = "/api/category";
 
   const getCategories = () => {
