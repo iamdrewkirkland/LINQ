@@ -31,6 +31,7 @@ namespace Linq.Controllers
             var currentUser = GetCurrentUserProfile();
             return Ok(_categoryRepository.GetByUserId(currentUser.Id));
         }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
