@@ -37,7 +37,7 @@ export default function CategoryList() {
           Add Category
         </Button>
         <Collapse isOpen={isOpen}>
-          NEW CATEGORY FORM GOES HERE
+          <NewCategoryForm />
         </Collapse>
         <Row className="d-flex">
           {categories.map((category) => (
