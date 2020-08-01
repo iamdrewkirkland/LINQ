@@ -10,6 +10,7 @@ import {
   Container,
   Collapse,
   Row,
+  Badge,
 } from "reactstrap";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import NewCategoryForm from "./NewCategoryForm";
@@ -71,10 +72,8 @@ export default function CategoryList() {
                       />
                     ) : null}{" "}
                   </h3>
+                  <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
                 </CardTitle>
-                <CardSubtitle>
-                  {category.isPublic ? "Public" : "Private"}
-                </CardSubtitle>
                 <Row className="">
                   <Button className="ml-1" outline size="sm" color="secondary">
                     <FontAwesomeIcon size="sm" icon={faEdit} />
