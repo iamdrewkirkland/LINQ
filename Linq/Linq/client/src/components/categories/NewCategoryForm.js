@@ -11,6 +11,7 @@ import {
 import Toggle from "react-toggle";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import { SketchPicker } from "react-color";
+import { useHistory } from "react-router-dom";
 
 export default function NewCategoryForm() {
   const [name, setName] = useState("");
@@ -18,6 +19,7 @@ export default function NewCategoryForm() {
   const [favorite, setFavorite] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
   const { addCategory } = useContext(CategoryContext);
+  const history = useHistory();
 
   function toggleFavorite() {
     setFavorite(!favorite);
@@ -36,9 +38,9 @@ export default function NewCategoryForm() {
       isFavorite: favorite,
       isPublic: isPublic,
     };
-    debugger;
 
-    addCategory(newCategory);
+    addCategory(newCategory)
+      .catch((err) => alert(`An error ocurred: ${err.message}`));
   }
 
   return (
@@ -59,13 +61,12 @@ export default function NewCategoryForm() {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="form--url">Color</Label>
+            <Label>Color</Label>
             <SketchPicker
               disableAlpha={true}
               color={isColor}
               onChangeComplete={(e) => {
                 setColor(e.hex);
-                debugger;
               }}
             />
             {/* <Input
@@ -81,12 +82,12 @@ export default function NewCategoryForm() {
             </FormText>
           </FormGroup>
           <FormGroup>
-              <Toggle
-                id="categoryForm--favorite"
-                name="isFavorite"
-                value={favorite}
-                onChange={toggleFavorite}
-              />
+            <Toggle
+              id="categoryForm--favorite"
+              name="isFavorite"
+              value={favorite}
+              onChange={toggleFavorite}
+            />
             <FormText color="muted">
               Toggle to set category as favorite
             </FormText>
