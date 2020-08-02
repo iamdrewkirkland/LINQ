@@ -22,6 +22,11 @@ namespace Linq.Repositories
             return _context.UserProfile
                 .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
         }
+        public UserProfile GetByUsername(string username)
+        {
+            return _context.UserProfile
+                .FirstOrDefault(up => up.Username == username);
+        }
 
         public void Add(UserProfile userProfile)
         {

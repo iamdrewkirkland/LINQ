@@ -32,6 +32,12 @@ namespace Linq.Repositories
                             .Include(c => c.UserProfile)
                             .FirstOrDefault(c => c.Id == id);
         }
+        public Category GetByCategoryName(UserProfile user, string categoryName)
+        {
+            return _context.Categories
+                            .Include(c => c.UserProfile)
+                            .FirstOrDefault(c => c.Name == categoryName && c.UserProfileId == user.Id );
+        }
 
         public List<Category> GetByUserId(int id)
         {

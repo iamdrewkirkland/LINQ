@@ -35,6 +35,24 @@ namespace Linq.Controllers
             var currentUser = GetCurrentUserProfile();
             return Ok(_linkRepository.GetByUserId(currentUser.Id));
         }
+
+        [HttpGet("{username}/{categoryName}")]
+        public IActionResult Get(string username, string categoryName)
+        {
+           
+            var user = _userProfileRepository.GetByUsername(username);
+
+            var category = _categoryRepository.GetByCategoryName(user, categoryName);
+
+            var links = _linkRepository.GetByCategoryName(user, category);
+
+            if (category == null || user == null)
+            {
+                return NotFound();
+            }
+            return Ok(links);
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -59,7 +77,7 @@ namespace Linq.Controllers
             if (link.CategoryId != null)
             {
                 var category = _categoryRepository.GetById((int)link.CategoryId);
-                
+
                 if (category.UserProfileId != currentUser.Id)
                 {
 
@@ -67,7 +85,7 @@ namespace Linq.Controllers
 
                 }
             }
-            
+
             link.UserProfileId = currentUser.Id;
             link.CreateDate = DateTime.Now;
             _linkRepository.Add(link);

@@ -23,6 +23,11 @@ export const LinkProvider = (props) => {
     );
   };
 
+  const getPublicCategoryLinks = (username, category) =>
+    fetch(`${apiUrl}/${username}/${category}`, {
+      method: "GET",
+    }).then((res) => res.json());
+
   const getLinkById = (id) =>
     getToken().then((token) =>
       fetch(`${apiUrl}/${id}`, {
@@ -70,7 +75,15 @@ export const LinkProvider = (props) => {
 
   return (
     <LinkContext.Provider
-      value={{ links, setLinks, getLinks, getLinkById, addLink, editLink, deleteLink }}
+      value={{
+        links,
+        setLinks,
+        getLinks,
+        getLinkById,
+        addLink,
+        editLink,
+        deleteLink,
+      }}
     >
       {props.children}
     </LinkContext.Provider>

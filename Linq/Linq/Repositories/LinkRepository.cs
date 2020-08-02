@@ -43,6 +43,15 @@ namespace Linq.Repositories
                             .OrderByDescending(l => l.CreateDate)
                             .ToList();
         }
+        public List<Link> GetByCategoryName(UserProfile user, Category category)
+        {
+            return _context.Links
+                            .Include(l => l.UserProfile)
+                            .Include(l => l.Category)
+                            .Where(l => l.UserProfileId == user.Id && l.CategoryId == category.Id)
+                            .OrderByDescending(l => l.CreateDate)
+                            .ToList();
+        }
         public void Add(Link link)
         {
             _context.Add(link);

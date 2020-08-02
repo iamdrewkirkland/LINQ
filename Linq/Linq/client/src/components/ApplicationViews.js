@@ -6,7 +6,7 @@ import Register from "./Register.js";
 import LinkList from "./links/LinkList";
 import CategoryList from "./categories/CategoryList";
 import Main from "./Main";
-
+import CategoryDetail from "./categories/CategoryDetail";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -21,9 +21,12 @@ export default function ApplicationViews() {
         <Route path="/links">
           {isLoggedIn ? <LinkList /> : <Redirect to="/login" />}
         </Route>
+
         <Route path="/categories">
           {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
         </Route>
+
+        <Route path="/:username/:category" component={CategoryDetail} />
 
         <Route path="/login">
           <Login />
@@ -35,4 +38,4 @@ export default function ApplicationViews() {
       </Switch>
     </main>
   );
-};
+}

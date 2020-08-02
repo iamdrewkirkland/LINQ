@@ -54,11 +54,12 @@ export default function CategoryList() {
           Add Category
         </Button>
         <Collapse isOpen={isOpen}>
-          <NewCategoryForm toggle={toggle}/>
+          <NewCategoryForm toggle={toggle} />
         </Collapse>
         <Row className="d-flex">
           {categories.map((category) => (
             <Card
+              key={category.id}
               className="m-3"
               outline
               style={{ borderColor: `${category.color}` }}

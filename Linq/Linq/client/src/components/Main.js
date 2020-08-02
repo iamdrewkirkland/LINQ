@@ -16,6 +16,7 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { CategoryContext } from "../providers/CategoryProvider";
 import { LinkContext } from "../providers/LinkProvider";
 
@@ -40,6 +41,7 @@ export default function Main() {
             {categories.map((category) => {
               return (
                 <Card
+                  key={category.id}
                   className="m-3"
                   outline
                   style={{ borderColor: `${category.color}` }}
@@ -55,13 +57,27 @@ export default function Main() {
                             style={{ color: "goldenrod" }}
                           />
                         ) : null}{" "}
+                        <Button
+                          className="ml-auto"
+                          href="https://www.google.com"
+                          target="blank"
+                          outline
+                          size="sm"
+                        >
+                          <FontAwesomeIcon size="sm" icon={faExternalLinkAlt} />
+                        </Button>
                       </h3>
+
                       <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
                     </CardTitle>
                     {links.map((link) => {
                       if (link.categoryId === category.id) {
                         return (
-                          <CardLink href={link.url} target="blank">
+                          <CardLink
+                            key={link.id}
+                            href={link.url}
+                            target="blank"
+                          >
                             {link.title}
                           </CardLink>
                         );
