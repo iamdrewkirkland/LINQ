@@ -6,7 +6,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import NewLinkForm from "./NewLinkForm";
 import MissingLinks from "./MissingLinks";
 import { CategoryContext } from "../../providers/CategoryProvider";
-import moment from 'moment';
+import moment from "moment";
 
 export default function LinkList() {
   const { links, getLinks } = useContext(LinkContext);
@@ -60,7 +60,7 @@ export default function LinkList() {
       category: `${link.category ? link.category.name : ""}`,
       title: link.title,
       url: link.url,
-      createDate: moment(link.createDate).format('llll'),
+      createDate: moment(link.createDate).format("llll"),
     };
     data.push(currentLink);
   });
@@ -68,9 +68,9 @@ export default function LinkList() {
   return (
     <>
       <Container>
-        <Row>
-          <h2>LINKS GO BRRRRRRRRR</h2>
-        </Row>
+        <span>
+          <h1 className="m-3 text-center">My Links</h1>
+        </span>
 
         <Button className="m-3" onClick={toggle}>
           Add Link

@@ -47,6 +47,9 @@ export default function CategoryList() {
   return (
     <>
       <Container>
+        <span>
+          <h1 className="m-3 text-center">My Categories</h1>
+        </span>
         <Button className="m-3" onClick={toggle}>
           Add Category
         </Button>

@@ -48,7 +48,7 @@ export default function NewCategoryForm() {
 
   return (
     <>
-      <Container className="m-3">
+      <Container className="m-3 p-3 border rounded">
         <h4 className="text-center">Add New Category</h4>
         <Form className="pt-2" onSubmit={submitLink}>
           <Row>

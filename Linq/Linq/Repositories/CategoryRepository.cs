@@ -55,6 +55,12 @@ namespace Linq.Repositories
 
         public void Delete(Category category)
         {
+            foreach (var link in _context.Links
+                .Where(l => l.CategoryId == category.Id))
+            {
+                _ = link.CategoryId == null;
+                _context.Links.Update(link);
+            }
 
             _context.Categories.Remove(category);
             _context.SaveChanges();

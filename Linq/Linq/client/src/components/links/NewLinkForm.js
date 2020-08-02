@@ -40,8 +40,8 @@ export default function NewLinkForm({ categories }) {
 
   return (
     <>
-      <Container className="m-3">
-        <h4>add a new link</h4>
+      <Container className="m-3 p-3 border rounded">
+        <h4 className="text-center">New Link Form</h4>
         <Form className="pt-2" onSubmit={submitLink}>
           <FormGroup>
             <Label for="form--title">Title</Label>
