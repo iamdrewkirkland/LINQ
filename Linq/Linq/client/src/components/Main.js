@@ -37,34 +37,40 @@ export default function Main() {
         </span>
         <Row className="d-flex">
           <CardColumns>
-            {categories.map((category) => (
-              <Card
-                className="m-3"
-                outline
-                style={{ borderColor: `${category.color}` }}
-              >
-                <CardBody>
-                  <CardTitle>
-                    <h3>
-                      {category.name}{" "}
-                      {category.isFavorite ? (
-                        <FontAwesomeIcon
-                          icon={faStar}
-                          size="sm"
-                          style={{ color: "goldenrod" }}
-                        />
-                      ) : null}{" "}
-                    </h3>
-                    <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
-                  </CardTitle>
-                  {links.map((link) => {
-                    if (link.categoryId === category.id) {
-                      return <CardLink href={link.url}>{link.title}</CardLink>;
-                    }
-                  })}
-                </CardBody>
-              </Card>
-            ))}
+            {categories.map((category) => {
+              return (
+                <Card
+                  className="m-3"
+                  outline
+                  style={{ borderColor: `${category.color}` }}
+                >
+                  <CardBody>
+                    <CardTitle>
+                      <h3>
+                        {category.name}{" "}
+                        {category.isFavorite ? (
+                          <FontAwesomeIcon
+                            icon={faStar}
+                            size="sm"
+                            style={{ color: "goldenrod" }}
+                          />
+                        ) : null}{" "}
+                      </h3>
+                      <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
+                    </CardTitle>
+                    {links.map((link) => {
+                      if (link.categoryId === category.id) {
+                        return (
+                          <CardLink href={link.url} target="blank">
+                            {link.title}
+                          </CardLink>
+                        );
+                      }
+                    })}
+                  </CardBody>
+                </Card>
+              );
+            })}
           </CardColumns>
         </Row>
       </Container>

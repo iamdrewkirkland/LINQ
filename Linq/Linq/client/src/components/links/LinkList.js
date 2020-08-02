@@ -7,14 +7,14 @@ import NewLinkForm from "./NewLinkForm";
 import MissingLinks from "./MissingLinks";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export default function LinkList() {
   const { links, getLinks } = useContext(LinkContext);
   const { categories, getCategories } = useContext(CategoryContext);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const history = useHistory();
-  //   const handleLink = () => {history.push(`/userProfiles/list/deactivated`);};
 
   useEffect(() => {
     getLinks();
@@ -54,9 +54,19 @@ export default function LinkList() {
   // Setting the values of the table rows
   const data = [];
 
+
+
   links.map((link) => {
     const currentLink = {
-      favorite: `${link.isFavorite ? "YES" : "NO"}`,
+      favorite: link.isFavorite ? 
+        <FontAwesomeIcon
+          icon={faStar}
+          size="lg"
+          style={{ color: "goldenrod" }}
+        />
+       : (
+        ""
+      ),
       category: `${link.category ? link.category.name : ""}`,
       title: link.title,
       url: link.url,
@@ -76,7 +86,7 @@ export default function LinkList() {
           Add Link
         </Button>
         <Collapse isOpen={isOpen}>
-          <NewLinkForm categories={categories} />
+          <NewLinkForm toggle={toggle} categories={categories} />
         </Collapse>
         {links.length > 0 ? (
           <BootstrapTable

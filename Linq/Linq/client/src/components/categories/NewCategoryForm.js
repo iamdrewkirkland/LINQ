@@ -15,13 +15,12 @@ import { CategoryContext } from "../../providers/CategoryProvider";
 import { SketchPicker } from "react-color";
 import { useHistory } from "react-router-dom";
 
-export default function NewCategoryForm() {
+export default function NewCategoryForm({toggle}) {
   const [name, setName] = useState("");
   const [isColor, setColor] = useState("");
   const [favorite, setFavorite] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
   const { addCategory } = useContext(CategoryContext);
-  const history = useHistory();
 
   function toggleFavorite() {
     setFavorite(!favorite);
@@ -41,7 +40,9 @@ export default function NewCategoryForm() {
       isPublic: isPublic,
     };
 
-    addCategory(newCategory).catch((err) =>
+    addCategory(newCategory)
+    .then(toggle)
+    .catch((err) =>
       alert(`An error ocurred: ${err.message}`)
     );
   }
@@ -62,8 +63,11 @@ export default function NewCategoryForm() {
                   id="categoryForm--name"
                   value={name}
                   onInput={(e) => setName(e.target.value)}
-                  placeholder="enter a short title for your link"
+                  placeholder="Cats, Cats, and More Cats"
                 />
+                <FormText color="muted">
+                  Enter a short, descriptive name for your new category
+                </FormText>
               </FormGroup>
             </Col>
           </Row>

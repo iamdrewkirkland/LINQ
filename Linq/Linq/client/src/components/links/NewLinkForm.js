@@ -7,12 +7,11 @@ import {
   Label,
   Input,
   FormText,
-  
 } from "reactstrap";
 import Toggle from "react-toggle";
 import { LinkContext } from "../../providers/LinkProvider";
 
-export default function NewLinkForm({ categories }) {
+export default function NewLinkForm({ categories, toggle }) {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [categoryId, setCategoryId] = useState();
@@ -33,9 +32,10 @@ export default function NewLinkForm({ categories }) {
       categoryId: categoryId,
       isFavorite: favorite,
     };
-    debugger;
 
-    addLink(newLink);
+    addLink(newLink)
+      .then(toggle)
+      .catch((err) => alert(`An error ocurred: ${err.message}`));
   }
 
   return (
@@ -97,15 +97,13 @@ export default function NewLinkForm({ categories }) {
             </FormText>
           </FormGroup>
           <FormGroup>
-          <Toggle
+            <Toggle
               id="form--favorite"
               name="isFavorite"
               value={favorite}
               onChange={toggleFavorite}
             />
-            <FormText color="muted">
-              Toggle to set link as favorite
-            </FormText>
+            <FormText color="muted">Toggle to set link as favorite</FormText>
           </FormGroup>
           <Button type="submit">Submit</Button>
         </Form>
