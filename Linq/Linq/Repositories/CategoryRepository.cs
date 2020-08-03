@@ -17,15 +17,6 @@ namespace Linq.Repositories
             _context = context;
         }
 
-
-        //public List<Link> GetAll() 
-        //{
-        //    return _context.Links
-        //                .Include(l => l.Category)
-        //                .Include(l => l.UserProfile)
-        //                .ToList();
-        //}
-
         public Category GetById(int id)
         {
             return _context.Categories
@@ -64,7 +55,7 @@ namespace Linq.Repositories
             foreach (var link in _context.Links
                 .Where(l => l.CategoryId == category.Id))
             {
-                _ = link.CategoryId == null;
+                link.CategoryId = null;
                 _context.Links.Update(link);
             }
 
