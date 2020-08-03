@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Linq.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -36,7 +35,7 @@ namespace Linq.Controllers
         [HttpPost]
         public IActionResult Register(UserProfile userProfile)
         {
-           
+            userProfile.CreateDate = DateTime.Now;
             _userProfileRepository.Add(userProfile);
             return CreatedAtAction(
                 nameof(GetByFirebaseUserId), new { firebaseUserId = userProfile.FirebaseUserId }, userProfile);

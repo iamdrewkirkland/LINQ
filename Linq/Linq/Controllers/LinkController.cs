@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Linq.Data;
 using Linq.Models;
 using Linq.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,6 +37,7 @@ namespace Linq.Controllers
             return Ok(_linkRepository.GetByUserId(currentUser.Id));
         }
 
+        
         [HttpGet("{username}/{categoryName}")]
         public IActionResult Get(string username, string categoryName)
         {
