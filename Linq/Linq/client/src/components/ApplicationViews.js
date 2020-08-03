@@ -26,7 +26,9 @@ export default function ApplicationViews() {
           {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/:username/:category" component={CategoryDetail} />
+        <Route path="/:username/:category">
+          <CategoryDetail />
+        </Route>
 
         <Route path="/login">
           <Login />

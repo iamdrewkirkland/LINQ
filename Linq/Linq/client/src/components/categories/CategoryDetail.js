@@ -1,23 +1,51 @@
-import React, { useContext, useEffect } from "react";
-import { Container } from "reactstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { Container, Jumbotron } from "reactstrap";
 import { LinkContext } from "../../providers/LinkProvider.js";
 import BootstrapTable from "react-bootstrap-table-next";
 import MissingLinks from "../links/MissingLinks.js";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router-dom";
+import { UserProfileContext } from "../../providers/UserProfileProvider.js";
 
-export default function CategoryDetail({ category }) {
-  const { links, getLinks } = useContext(LinkContext);
-
-  //GetPublicCategoryLinks(`${this.props.params.username}`, `${this.props.params.category}`) = useContext(LinkContext)
-  //${this.props.params.username}
-  //${this.props.params.category}
+export default function CategoryDetail() {
+  const { getCategoryLinks, getCategoryLinksAuth } = useContext(LinkContext);
+  const { isLoggedIn } = useContext(UserProfileContext);
+  const { username, category } = useParams();
+  const [categoryLinks, setCategoryLinks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    getLinks();
+    isLoggedIn
+      ? getCategoryLinksAuth(username, category)
+          .then((c) => {
+            setCategoryLinks(c);
+            setIsLoading(false);
+          })
+          .catch(() => setErrorMessage("Sorry, there's nothing here."))
+      : getCategoryLinks(username, category)
+          .then((c) => {
+            setCategoryLinks(c);
+            setIsLoading(false);
+          })
+          .catch(() => setErrorMessage("Sorry, there's nothing here."));
+
     // eslint-disable-next-line
-  }, []);
+  }, [isLoggedIn]);
+
+  if (errorMessage) {
+    return (
+        <Container>
+          <Jumbotron>
+            <h1>Uh oh!</h1>
+            <hr className="my-1" />
+            <p className="lead">{errorMessage}</p>
+          </Jumbotron>
+        </Container>
+    );
+  }
 
   // Setting the name and associated values of the table head
   const columns = [
@@ -51,8 +79,8 @@ export default function CategoryDetail({ category }) {
   // Setting the values of the table rows
   const data = [];
 
-  links.map((link) => {
-    if (link.categoryId === category.id) {
+  categoryLinks.map((link) => {
+    if (link.category.name === category) {
       const currentLink = {
         favorite: link.isFavorite ? (
           <FontAwesomeIcon
@@ -76,10 +104,12 @@ export default function CategoryDetail({ category }) {
     <>
       <Container>
         <span>
-          <h1 className="m-3 text-center">{category.name}</h1>
+          <h1 className="m-3 text-center">{category}</h1>
         </span>
 
-        {links.length > 0 ? (
+        {categoryLinks.length === 0 && !isLoading ? (
+          <MissingLinks />
+        ) : (
           <BootstrapTable
             keyField="id"
             data={data}
@@ -87,10 +117,7 @@ export default function CategoryDetail({ category }) {
             bootstrap4={true}
             condensed={true}
             hover={true}
-            noDataIndication={"Add a link to get started!"}
           />
-        ) : (
-          <MissingLinks />
         )}
       </Container>
     </>

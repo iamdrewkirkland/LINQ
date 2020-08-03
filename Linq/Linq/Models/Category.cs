@@ -27,5 +27,9 @@ namespace Linq.Models
         public int UserProfileId { get; set; }
 
         public UserProfile UserProfile { get; set; }
+
+        public List<Link> UserLinks { get; set; }
+
+
     }
 }

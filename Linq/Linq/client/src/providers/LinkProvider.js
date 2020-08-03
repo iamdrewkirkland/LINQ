@@ -23,10 +23,33 @@ export const LinkProvider = (props) => {
     );
   };
 
-  const getPublicCategoryLinks = (username, category) =>
-    fetch(`${apiUrl}/${username}/${category}`, {
+  const getCategoryLinks = (username, categoryName) => {
+    return fetch(`${apiUrl}/${username}/${categoryName}`, {
       method: "GET",
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      throw new Error();
+    });
+  };
+
+  const getCategoryLinksAuth = (username, categoryName) => {
+    return getToken().then((token) =>
+      fetch(`${apiUrl}/${username}/${categoryName}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+          throw new Error();
+        })
+    );
+  };
 
   const getLinkById = (id) =>
     getToken().then((token) =>
@@ -83,6 +106,8 @@ export const LinkProvider = (props) => {
         addLink,
         editLink,
         deleteLink,
+        getCategoryLinks,
+        getCategoryLinksAuth,
       }}
     >
       {props.children}

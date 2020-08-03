@@ -37,22 +37,38 @@ namespace Linq.Controllers
             return Ok(_linkRepository.GetByUserId(currentUser.Id));
         }
 
-        
+
         [HttpGet("{username}/{categoryName}")]
         public IActionResult Get(string username, string categoryName)
         {
-           
+
             var user = _userProfileRepository.GetByUsername(username);
 
             var category = _categoryRepository.GetByCategoryName(user, categoryName);
-
-            var links = _linkRepository.GetByCategoryName(user, category);
-
             if (category == null || user == null)
             {
                 return NotFound();
             }
-            return Ok(links);
+            if (category.IsPublic)
+            {
+                var links = _linkRepository.GetByCategoryName(user, category);
+
+                return Ok(links);
+
+            }
+
+            var requestingUser = GetCurrentUserProfile();
+
+            if (requestingUser == null)
+            {
+                return Unauthorized();
+            }
+            var requestedLinks = _linkRepository.GetRequestedLinks(requestingUser.Id, category.Id);
+
+            return Ok(requestedLinks);
+
+
+
         }
 
         [HttpGet("{id}")]
@@ -124,7 +140,7 @@ namespace Linq.Controllers
 
         private UserProfile GetCurrentUserProfile()
         {
-            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var firebaseUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }

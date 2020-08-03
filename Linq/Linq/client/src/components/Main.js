@@ -19,6 +19,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { CategoryContext } from "../providers/CategoryProvider";
 import { LinkContext } from "../providers/LinkProvider";
+import { Link } from "react-router-dom";
 
 export default function Main() {
   const { categories, getCategories } = useContext(CategoryContext);
@@ -57,15 +58,21 @@ export default function Main() {
                             style={{ color: "goldenrod" }}
                           />
                         ) : null}{" "}
-                        <Button
-                          className="ml-auto"
-                          href="https://www.google.com"
-                          target="blank"
-                          outline
-                          size="sm"
+                        <Link
+                          to={`/${category.userProfile.username}/${category.name}`}
                         >
-                          <FontAwesomeIcon size="sm" icon={faExternalLinkAlt} />
-                        </Button>
+                          <Button
+                            className="ml-auto"
+                            target="blank"
+                            outline
+                            size="sm"
+                          >
+                            <FontAwesomeIcon
+                              size="sm"
+                              icon={faExternalLinkAlt}
+                            />
+                          </Button>
+                        </Link>
                       </h3>
 
                       <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
