@@ -27,7 +27,7 @@ export default function Header() {
           <Nav className="mr-auto" navbar>
             {isLoggedIn && (
               <>
-              <NavItem>
+                <NavItem>
                   <NavLink tag={RRNavLink} to="/">
                     Home
                   </NavLink>
@@ -59,18 +59,20 @@ export default function Header() {
               </>
             )}
           </Nav>
-          <Nav navbar>
-            <NavItem>
-              <a
-                aria-current="page"
-                className="nav-link"
-                style={{ cursor: "pointer" }}
-                onClick={logout}
-              >
-                Logout
-              </a>
-            </NavItem>
-          </Nav>
+          {isLoggedIn && (
+            <Nav navbar>
+              <NavItem>
+                <a
+                  aria-current="page"
+                  className="nav-link"
+                  style={{ cursor: "pointer" }}
+                  onClick={logout}
+                >
+                  Logout
+                </a>
+              </NavItem>
+            </Nav>
+          )}
         </Collapse>
       </Navbar>
     </div>
