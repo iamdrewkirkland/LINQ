@@ -18,17 +18,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import EditCategoryForm from "./EditCategoryForm";
 
 export default function CategoryList() {
-  const {
-    categories,
-    deleteCategory,
-    editCategory,
-    getCategories,
-  } = useContext(CategoryContext);
+  const { categories, deleteCategory, getCategories } = useContext(
+    CategoryContext
+  );
 
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+  // const [isOpen, setIsOpen] = useState(false);
+  // const toggle = () => setIsOpen(!isOpen);
+
+  const [collapseState, setCollapseState] = useState(null);
+  const [categoryEdit, setCategoryEdit] = useState(null);
 
   useEffect(() => {
     getCategories();
@@ -44,17 +45,36 @@ export default function CategoryList() {
     }
   }
 
+  function ControlCollapse() {
+    switch (collapseState) {
+      case "add":
+        //display NewForm if add button clicked
+        return <NewCategoryForm toggle={collapseState} />;
+      case "edit":
+        //display EditForm if edit button clicked - takes CATEGORY as argument
+        return (
+          <EditCategoryForm category={categoryEdit} toggle={collapseState} />
+        );
+      default:
+        return null;
+    }
+  }
+
   return (
     <>
       <Container>
         <span>
           <h1 className="m-3 text-center">My Categories</h1>
         </span>
-        <Button className="m-3" onClick={toggle}>
+        <Button
+          className="m-3"
+          name="add"
+          onClick={() => setCollapseState("add")}
+        >
           Add Category
         </Button>
-        <Collapse isOpen={isOpen}>
-          <NewCategoryForm toggle={toggle} />
+        <Collapse isOpen={collapseState}>
+          <ControlCollapse />
         </Collapse>
         <Row className="d-flex">
           {categories.map((category) => (
@@ -79,7 +99,17 @@ export default function CategoryList() {
                   <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
                 </CardTitle>
                 <Row className="">
-                  <Button className="ml-1" outline size="sm" color="secondary">
+                  <Button
+                    className="ml-1"
+                    outline
+                    size="sm"
+                    color="secondary"
+                    name="edit"
+                    onClick={() => {
+                      setCollapseState("edit");
+                      setCategoryEdit(category);
+                    }}
+                  >
                     <FontAwesomeIcon size="sm" icon={faEdit} />
                   </Button>
                   <Button

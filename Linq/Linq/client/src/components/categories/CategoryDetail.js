@@ -53,16 +53,19 @@ export default function CategoryDetail() {
       dataField: "favorite",
       text: "Favorite?",
       sort: true,
+      headerAlign: 'center'
     },
     {
       dataField: "title",
       text: "Title",
       sort: true,
+      headerAlign: 'center'
     },
     {
       dataField: "createDate",
       text: "Date Added",
       sort: true,
+      headerAlign: 'center'
     },
   ];
 

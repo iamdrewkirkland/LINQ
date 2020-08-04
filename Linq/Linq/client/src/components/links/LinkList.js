@@ -29,26 +29,31 @@ export default function LinkList() {
       dataField: "favorite",
       text: "Favorite?",
       sort: true,
+      headerAlign: "center",
     },
     {
       dataField: "category",
       text: "Category",
       sort: true,
+      headerAlign: "center",
     },
     {
       dataField: "title",
       text: "Title",
       sort: true,
+      headerAlign: "center",
     },
     {
       dataField: "createDate",
       text: "Date Added",
       sort: true,
+      headerAlign: "center",
     },
     {
       dataField: "manage",
       text: "Manage Link",
       sort: false,
+      headerAlign: "center",
     },
   ];
 

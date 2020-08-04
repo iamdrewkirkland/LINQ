@@ -14,12 +14,12 @@ import Toggle from "react-toggle";
 import { CategoryContext } from "../../providers/CategoryProvider";
 import { SketchPicker } from "react-color";
 
-export default function NewCategoryForm({ toggle }) {
-  const [name, setName] = useState("");
-  const [isColor, setColor] = useState("");
-  const [favorite, setFavorite] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
-  const { addCategory } = useContext(CategoryContext);
+export default function EditCategoryForm({ toggle, category }) {
+  const [name, setName] = useState(category.name);
+  const [isColor, setColor] = useState(category.color);
+  const [favorite, setFavorite] = useState(category.isFavorite);
+  const [isPublic, setIsPublic] = useState(category.isPublic);
+  const { editCategory } = useContext(CategoryContext);
 
   function toggleFavorite() {
     setFavorite(!favorite);
@@ -32,28 +32,22 @@ export default function NewCategoryForm({ toggle }) {
     e.preventDefault();
 
     // establish a new link object for submission
-    const newCategory = {
-      name: name,
-      color: isColor,
-      isFavorite: favorite,
-      isPublic: isPublic,
-    };
+    // const newCategory = {
+    //   name: name,
+    //   color: isColor,
+    //   isFavorite: favorite,
+    //   isPublic: isPublic,
+    // };
 
-    addCategory(newCategory)
-      .then(() => {
-        setName("");
-        setColor("");
-        setFavorite(false);
-        setIsPublic(false);
-      })
-      // .then(() => toggle(null))
-      .catch((err) => alert(`An error ocurred: ${err.message}`));
+    // addCategory(newCategory)
+    //   .then(() => toggle(null))
+    //   .catch((err) => alert(`An error ocurred: ${err.message}`));
   }
 
   return (
     <>
       <Container className="m-3 p-3 border rounded">
-        <h4 className="text-center">Add New Category</h4>
+        <h4 className="text-center">Edit Category</h4>
         <Form className="pt-2" onSubmit={submitLink}>
           <Row>
             <Col>
@@ -95,7 +89,7 @@ export default function NewCategoryForm({ toggle }) {
                 <Toggle
                   id="categoryForm--favorite"
                   name="isFavorite"
-                  value={favorite}
+                  checked={favorite}
                   onChange={toggleFavorite}
                 />
                 <FormText color="muted">
@@ -106,7 +100,7 @@ export default function NewCategoryForm({ toggle }) {
                 <Toggle
                   id="categoryForm--public"
                   name="isPublic"
-                  value={isPublic}
+                  checked={isPublic}
                   onChange={togglePublic}
                 />
                 <FormText color="muted">
@@ -116,8 +110,8 @@ export default function NewCategoryForm({ toggle }) {
             </Col>
           </Row>
 
-          <Button type="submit" color="primary">
-            Submit
+          <Button type="submit" color="secondary">
+            Save
           </Button>
         </Form>
       </Container>

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Linq.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class LinkController : ControllerBase
@@ -37,7 +38,7 @@ namespace Linq.Controllers
             return Ok(_linkRepository.GetByUserId(currentUser.Id));
         }
 
-
+        [AllowAnonymous]
         [HttpGet("{username}/{categoryName}")]
         public IActionResult Get(string username, string categoryName)
         {
