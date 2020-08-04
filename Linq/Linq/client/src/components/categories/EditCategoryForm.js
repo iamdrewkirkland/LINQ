@@ -39,14 +39,7 @@ export default function EditCategoryForm({ toggle, category }) {
       isFavorite: favorite,
       isPublic: isPublic,
     };
-    editCategory(updateCategory)
-    //   .then(
-    //     setName(name),
-    //     setColor(isColor),
-    //     setFavorite(favorite),
-    //     setIsPublic(isPublic)
-    //   )
-      .then(() => toggle(null));
+    editCategory(updateCategory).then(() => toggle(null));
   }
 
   return (

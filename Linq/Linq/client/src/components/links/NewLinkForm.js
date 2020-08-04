@@ -33,9 +33,12 @@ export default function NewLinkForm({ categories, toggle }) {
       isFavorite: favorite,
     };
 
-    addLink(newLink)
-      .then(toggle)
-      .catch((err) => alert(`An error ocurred: ${err.message}`));
+    addLink(newLink).then(
+      setTitle(""),
+      setUrl(""),
+      setCategoryId(0),
+      setFavorite(false)
+    );
   }
 
   return (
@@ -100,7 +103,7 @@ export default function NewLinkForm({ categories, toggle }) {
             <Toggle
               id="form--favorite"
               name="isFavorite"
-              value={favorite}
+              checked={favorite}
               onChange={toggleFavorite}
             />
             <FormText color="muted">Toggle to set link as favorite</FormText>

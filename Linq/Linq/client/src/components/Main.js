@@ -77,6 +77,7 @@ export default function Main() {
 
                       <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
                     </CardTitle>
+
                     {links.map((link) => {
                       if (link.categoryId === category.id) {
                         return (

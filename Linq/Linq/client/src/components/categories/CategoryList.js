@@ -25,9 +25,6 @@ export default function CategoryList() {
     CategoryContext
   );
 
-  // const [isOpen, setIsOpen] = useState(false);
-  // const toggle = () => setIsOpen(!isOpen);
-
   const [collapseState, setCollapseState] = useState(null);
   const [categoryEdit, setCategoryEdit] = useState(null);
 

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Linq.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase

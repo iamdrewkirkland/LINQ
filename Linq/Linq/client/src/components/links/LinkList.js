@@ -10,12 +10,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import EditLinkForm from "./EditLinkForm";
 
 export default function LinkList() {
   const { links, getLinks, deleteLink, editLink } = useContext(LinkContext);
   const { categories, getCategories } = useContext(CategoryContext);
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+
+  // const [isOpen, setIsOpen] = useState(false);
+  // const toggle = () => setIsOpen(!isOpen);
+
+  const [collapseState, setCollapseState] = useState(null);
+  const [linkEdit, setLinkEdit] = useState(null);
 
   useEffect(() => {
     getLinks();
@@ -23,7 +28,28 @@ export default function LinkList() {
     // eslint-disable-next-line
   }, []);
 
-  // Setting the name and associated values of the table head
+  function ControlCollapse() {
+    switch (collapseState) {
+      case "add":
+        //display NewForm if add button clicked
+        return (
+          <NewLinkForm categories={categories} toggle={setCollapseState} />
+        );
+      case "edit":
+        //display EditForm if edit button clicked - takes CATEGORY as argument
+        return (
+          <EditLinkForm
+            categories={categories}
+            link={linkEdit}
+            toggle={setCollapseState}
+          />
+        );
+      default:
+        return null;
+    }
+  }
+
+  // Setting the name, associated values, and properties of the table columns
   const columns = [
     {
       dataField: "favorite",
@@ -51,7 +77,7 @@ export default function LinkList() {
     },
     {
       dataField: "manage",
-      text: "Manage Link",
+      text: "Edit / Delete",
       sort: false,
       headerAlign: "center",
     },
@@ -80,7 +106,16 @@ export default function LinkList() {
       createDate: moment(link.createDate).format("llll"),
       manage: (
         <>
-          <Button className="ml-1" outline size="sm" color="secondary">
+          <Button
+            className="ml-1"
+            outline
+            size="sm"
+            color="secondary"
+            onClick={() => {
+              setCollapseState("edit");
+              setLinkEdit(link);
+            }}
+          >
             <FontAwesomeIcon size="sm" icon={faEdit} />
           </Button>
           <Button
@@ -88,10 +123,7 @@ export default function LinkList() {
             outline
             size="sm"
             color="danger"
-            onClick={(e) => {
-              e.preventDefault();
-              deleteLink(link.id);
-            }}
+            onClick={() => deleteLink(link.id)}
           >
             <FontAwesomeIcon size="sm" icon={faTrash} />
           </Button>
@@ -108,11 +140,15 @@ export default function LinkList() {
           <h1 className="m-3 text-center">My Links</h1>
         </span>
 
-        <Button className="m-3" onClick={toggle}>
+        <Button
+          className="m-3"
+          color="secondary"
+          onClick={() => setCollapseState("add")}
+        >
           Add Link
         </Button>
-        <Collapse isOpen={isOpen}>
-          <NewLinkForm toggle={toggle} categories={categories} />
+        <Collapse isOpen={collapseState}>
+          <ControlCollapse />
         </Collapse>
         {links.length > 0 ? (
           <BootstrapTable

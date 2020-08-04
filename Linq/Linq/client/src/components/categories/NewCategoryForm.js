@@ -46,8 +46,7 @@ export default function NewCategoryForm({ toggle }) {
         setFavorite(false);
         setIsPublic(false);
       })
-      // .then(() => toggle(null))
-      .catch((err) => alert(`An error ocurred: ${err.message}`));
+      .then(() => toggle(null));
   }
 
   return (
