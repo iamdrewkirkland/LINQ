@@ -65,7 +65,7 @@ export default function NewCategoryForm({ toggle }) {
                   name="name"
                   id="categoryForm--name"
                   value={name}
-                  onInput={(e) => setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Cats, Cats, and More Cats"
                 />
                 <FormText color="muted">

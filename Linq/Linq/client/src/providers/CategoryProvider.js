@@ -54,8 +54,8 @@ export const CategoryProvider = (props) => {
       }).then(getCategories)
     );
 
-  const editCategory = (category) =>
-    getToken().then((token) =>
+  const editCategory = (category) => {
+    return getToken().then((token) =>
       fetch(`${apiUrl}/${category.id}`, {
         method: "PUT",
         headers: {
@@ -65,6 +65,7 @@ export const CategoryProvider = (props) => {
         body: JSON.stringify(category),
       }).then(getCategories)
     );
+  };
 
   return (
     <CategoryContext.Provider

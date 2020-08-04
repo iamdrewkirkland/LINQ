@@ -16,7 +16,7 @@ import { SketchPicker } from "react-color";
 
 export default function EditCategoryForm({ toggle, category }) {
   const [name, setName] = useState(category.name);
-  const [isColor, setColor] = useState(category.color);
+  const [isColor, setColor] = useState(category.color ? category.color : "");
   const [favorite, setFavorite] = useState(category.isFavorite);
   const [isPublic, setIsPublic] = useState(category.isPublic);
   const { editCategory } = useContext(CategoryContext);
@@ -28,27 +28,32 @@ export default function EditCategoryForm({ toggle, category }) {
     setIsPublic(!isPublic);
   }
 
-  function submitLink(e) {
+  function submitCategory(e) {
     e.preventDefault();
 
-    // establish a new link object for submission
-    // const newCategory = {
-    //   name: name,
-    //   color: isColor,
-    //   isFavorite: favorite,
-    //   isPublic: isPublic,
-    // };
-
-    // addCategory(newCategory)
-    //   .then(() => toggle(null))
-    //   .catch((err) => alert(`An error ocurred: ${err.message}`));
+    // establish an updated category object for submission
+    const updateCategory = {
+      id: category.id,
+      name: name,
+      color: isColor,
+      isFavorite: favorite,
+      isPublic: isPublic,
+    };
+    editCategory(updateCategory)
+    //   .then(
+    //     setName(name),
+    //     setColor(isColor),
+    //     setFavorite(favorite),
+    //     setIsPublic(isPublic)
+    //   )
+      .then(() => toggle(null));
   }
 
   return (
     <>
       <Container className="m-3 p-3 border rounded">
         <h4 className="text-center">Edit Category</h4>
-        <Form className="pt-2" onSubmit={submitLink}>
+        <Form className="pt-2" onSubmit={submitCategory}>
           <Row>
             <Col>
               <FormGroup>
@@ -59,7 +64,7 @@ export default function EditCategoryForm({ toggle, category }) {
                   name="name"
                   id="categoryForm--name"
                   value={name}
-                  onInput={(e) => setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Cats, Cats, and More Cats"
                 />
                 <FormText color="muted">

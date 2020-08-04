@@ -49,11 +49,11 @@ export default function CategoryList() {
     switch (collapseState) {
       case "add":
         //display NewForm if add button clicked
-        return <NewCategoryForm toggle={collapseState} />;
+        return <NewCategoryForm toggle={setCollapseState} />;
       case "edit":
         //display EditForm if edit button clicked - takes CATEGORY as argument
         return (
-          <EditCategoryForm category={categoryEdit} toggle={collapseState} />
+          <EditCategoryForm category={categoryEdit} toggle={setCollapseState} />
         );
       default:
         return null;
