@@ -74,6 +74,7 @@ export default function LinkList() {
       text: "Date Added",
       sort: true,
       headerAlign: "center",
+      formatter: (date)=>moment(date).format("llll"),
     },
     {
       dataField: "manage",
@@ -103,7 +104,7 @@ export default function LinkList() {
           {link.title}{" "}
         </a>
       ),
-      createDate: moment(link.createDate).format("llll"),
+      createDate: link.createDate,
       manage: (
         <>
           <Button
@@ -158,6 +159,7 @@ export default function LinkList() {
             bootstrap4={true}
             condensed={true}
             hover={true}
+            bordered={false}
             noDataIndication={"Add a link to get started!"}
           />
         ) : (

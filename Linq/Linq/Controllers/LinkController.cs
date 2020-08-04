@@ -44,13 +44,16 @@ namespace Linq.Controllers
         {
 
             var user = _userProfileRepository.GetByUsername(username);
+            
+            var requestingUser = GetCurrentUserProfile();
+
 
             var category = _categoryRepository.GetByCategoryName(user, categoryName);
             if (category == null || user == null)
             {
                 return NotFound();
             }
-            if (category.IsPublic)
+            if (category.IsPublic || requestingUser.Id == category.UserProfileId)
             {
                 var links = _linkRepository.GetByCategoryName(user, category);
 
@@ -58,12 +61,13 @@ namespace Linq.Controllers
 
             }
 
-            var requestingUser = GetCurrentUserProfile();
 
             if (requestingUser == null)
             {
                 return Unauthorized();
             }
+
+
             var requestedLinks = _linkRepository.GetRequestedLinks(requestingUser.Id, category.Id);
 
             return Ok(requestedLinks);

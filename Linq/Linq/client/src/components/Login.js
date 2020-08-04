@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
 import { useHistory, Link } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
@@ -18,6 +18,7 @@ export default function Login() {
   };
 
   return (
+    <Container>
     <Form onSubmit={loginSubmit}>
       <fieldset>
         <FormGroup>
@@ -36,5 +37,6 @@ export default function Login() {
         </em>
       </fieldset>
     </Form>
+    </Container>
   );
 }
