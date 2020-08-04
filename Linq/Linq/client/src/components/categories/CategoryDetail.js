@@ -37,13 +37,13 @@ export default function CategoryDetail() {
 
   if (errorMessage) {
     return (
-        <Container>
-          <Jumbotron>
-            <h1>Uh oh!</h1>
-            <hr className="my-1" />
-            <p className="lead">{errorMessage}</p>
-          </Jumbotron>
-        </Container>
+      <Container>
+        <Jumbotron>
+          <h1>Uh oh!</h1>
+          <hr className="my-1" />
+          <p className="lead">{errorMessage}</p>
+        </Jumbotron>
+      </Container>
     );
   }
 
@@ -55,18 +55,8 @@ export default function CategoryDetail() {
       sort: true,
     },
     {
-      dataField: "category",
-      text: "Category",
-      sort: true,
-    },
-    {
       dataField: "title",
       text: "Title",
-      sort: true,
-    },
-    {
-      dataField: "url",
-      text: "URL",
       sort: true,
     },
     {
@@ -91,9 +81,11 @@ export default function CategoryDetail() {
         ) : (
           ""
         ),
-        category: `${link.category ? link.category.name : ""}`,
-        title: link.title,
-        url: link.url,
+        title: (
+          <a href={`${link.url}`} target="blank">
+            {link.title}{" "}
+          </a>
+        ),
         createDate: moment(link.createDate).format("llll"),
       };
       data.push(currentLink);

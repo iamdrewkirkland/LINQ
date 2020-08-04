@@ -8,9 +8,11 @@ import { CategoryContext } from "../../providers/CategoryProvider";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export default function LinkList() {
-  const { links, getLinks } = useContext(LinkContext);
+  const { links, getLinks, deleteLink, editLink } = useContext(LinkContext);
   const { categories, getCategories } = useContext(CategoryContext);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
@@ -39,37 +41,57 @@ export default function LinkList() {
       sort: true,
     },
     {
-      dataField: "url",
-      text: "URL",
-      sort: true,
-    },
-    {
       dataField: "createDate",
       text: "Date Added",
       sort: true,
+    },
+    {
+      dataField: "manage",
+      text: "Manage Link",
+      sort: false,
     },
   ];
 
   // Setting the values of the table rows
   const data = [];
 
-
-
   links.map((link) => {
     const currentLink = {
-      favorite: link.isFavorite ? 
+      favorite: link.isFavorite ? (
         <FontAwesomeIcon
           icon={faStar}
           size="lg"
           style={{ color: "goldenrod" }}
         />
-       : (
+      ) : (
         ""
       ),
       category: `${link.category ? link.category.name : ""}`,
-      title: link.title,
-      url: link.url,
+      title: (
+        <a href={`${link.url}`} target="blank">
+          {link.title}{" "}
+        </a>
+      ),
       createDate: moment(link.createDate).format("llll"),
+      manage: (
+        <>
+          <Button className="ml-1" outline size="sm" color="secondary">
+            <FontAwesomeIcon size="sm" icon={faEdit} />
+          </Button>
+          <Button
+            className="ml-1"
+            outline
+            size="sm"
+            color="danger"
+            onClick={(e) => {
+              e.preventDefault();
+              deleteLink(link.id);
+            }}
+          >
+            <FontAwesomeIcon size="sm" icon={faTrash} />
+          </Button>
+        </>
+      ),
     };
     data.push(currentLink);
   });
