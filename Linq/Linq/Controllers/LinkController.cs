@@ -53,7 +53,7 @@ namespace Linq.Controllers
             {
                 return NotFound();
             }
-            if (category.IsPublic || requestingUser.Id == category.UserProfileId)
+            if (category.IsPublic || requestingUser?.Id == category.UserProfileId)
             {
                 var links = _linkRepository.GetByCategoryName(user, category);
 
@@ -61,18 +61,14 @@ namespace Linq.Controllers
 
             }
 
-
             if (requestingUser == null)
             {
                 return Unauthorized();
             }
 
-
             var requestedLinks = _linkRepository.GetRequestedLinks(requestingUser.Id, category.Id);
 
             return Ok(requestedLinks);
-
-
 
         }
 

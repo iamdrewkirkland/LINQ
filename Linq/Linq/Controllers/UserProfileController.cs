@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Linq.Controllers
 {
-
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -33,6 +33,7 @@ namespace Linq.Controllers
             return Ok(userProfile);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Register(UserProfile userProfile)
         {

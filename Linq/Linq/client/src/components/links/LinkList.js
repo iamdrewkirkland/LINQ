@@ -159,7 +159,6 @@ export default function LinkList() {
             bootstrap4={true}
             condensed={true}
             hover={true}
-            bordered={false}
             noDataIndication={"Add a link to get started!"}
           />
         ) : (
