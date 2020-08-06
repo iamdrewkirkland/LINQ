@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Collapse, Container, Row } from "reactstrap";
+import { Button, Collapse, Container } from "reactstrap";
 import { LinkContext } from "../../providers/LinkProvider";
 import BootstrapTable from "react-bootstrap-table-next";
 import NewLinkForm from "./NewLinkForm";
@@ -13,18 +13,16 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import EditLinkForm from "./EditLinkForm";
 
 export default function LinkList() {
-  const { links, getLinks, deleteLink, editLink } = useContext(LinkContext);
+  const { links, getLinks, deleteLink } = useContext(LinkContext);
   const { categories, getCategories } = useContext(CategoryContext);
-
-  // const [isOpen, setIsOpen] = useState(false);
-  // const toggle = () => setIsOpen(!isOpen);
-
   const [collapseState, setCollapseState] = useState(null);
   const [linkEdit, setLinkEdit] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getLinks();
     getCategories();
+    setIsLoading(false);
     // eslint-disable-next-line
   }, []);
 
@@ -68,13 +66,23 @@ export default function LinkList() {
       text: "Title",
       sort: true,
       headerAlign: "center",
+      formatter: (title, row) => (
+        <a href={`${row.url}`} target="blank">
+          {title}
+        </a>
+      ),
+    },
+    {
+      dataField: "url",
+      text: "URL",
+      hidden: true,
     },
     {
       dataField: "createDate",
       text: "Date Added",
       sort: true,
       headerAlign: "center",
-      formatter: (date)=>moment(date).format("llll"),
+      formatter: (date) => moment(date).format("llll"),
     },
     {
       dataField: "manage",
@@ -99,11 +107,8 @@ export default function LinkList() {
         ""
       ),
       category: `${link.category ? link.category.name : ""}`,
-      title: (
-        <a href={`${link.url}`} target="blank">
-          {link.title}{" "}
-        </a>
-      ),
+      title: link.title,
+      url: link.url,
       createDate: link.createDate,
       manage: (
         <>
@@ -151,7 +156,9 @@ export default function LinkList() {
         <Collapse isOpen={collapseState}>
           <ControlCollapse />
         </Collapse>
-        {links.length > 0 ? (
+        {links.length === 0 && !isLoading ? (
+          <MissingLinks />
+        ) : (
           <BootstrapTable
             keyField="id"
             data={data}
@@ -161,8 +168,6 @@ export default function LinkList() {
             hover={true}
             noDataIndication={"Add a link to get started!"}
           />
-        ) : (
-          <MissingLinks />
         )}
       </Container>
     </>

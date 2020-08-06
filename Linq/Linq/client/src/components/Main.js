@@ -1,14 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import {
   Card,
-  CardImg,
-  CardText,
   CardBody,
   CardTitle,
-  CardSubtitle,
   Button,
   Container,
-  Collapse,
   Row,
   Badge,
   CardColumns,

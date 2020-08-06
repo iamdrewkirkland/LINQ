@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   Card,
-  CardImg,
-  CardText,
   CardBody,
   CardTitle,
-  CardSubtitle,
   Button,
   Container,
   Collapse,
