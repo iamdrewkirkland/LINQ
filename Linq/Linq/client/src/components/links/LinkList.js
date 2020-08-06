@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Collapse, Container, Row } from "reactstrap";
+import { Button, Collapse, Container } from "reactstrap";
 import { LinkContext } from "../../providers/LinkProvider";
 import BootstrapTable from "react-bootstrap-table-next";
 import NewLinkForm from "./NewLinkForm";
@@ -13,7 +13,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import EditLinkForm from "./EditLinkForm";
 
 export default function LinkList() {
-  const { links, getLinks, deleteLink, editLink } = useContext(LinkContext);
+  const { links, getLinks, deleteLink } = useContext(LinkContext);
   const { categories, getCategories } = useContext(CategoryContext);
 
   // const [isOpen, setIsOpen] = useState(false);
