@@ -18,7 +18,7 @@ export default function Header() {
 
   return (
     <div>
-      <Navbar color="dark" dark expand="md">
+      <Navbar color="faded" light expand="md">
         <NavbarBrand tag={RRNavLink} to="/">
           LINQ
         </NavbarBrand>

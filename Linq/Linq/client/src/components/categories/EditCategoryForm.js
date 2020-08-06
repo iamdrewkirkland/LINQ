@@ -45,6 +45,7 @@ export default function EditCategoryForm({ toggle, category }) {
   return (
     <>
       <Container className="m-3 p-3 border rounded">
+        <Button close onClick={() => toggle(null)} />
         <h4 className="text-center">Edit Category</h4>
         <Form className="pt-2" onSubmit={submitCategory}>
           <Row>

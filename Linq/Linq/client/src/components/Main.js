@@ -92,7 +92,9 @@ export default function Main() {
                       </Link>
                     </h3>
 
-                    <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
+                    <Badge color="info">
+                      {category.isPublic ? "Public" : "Private"}
+                    </Badge>
                   </CardTitle>
 
                   {links.map((link) => {

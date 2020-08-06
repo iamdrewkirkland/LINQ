@@ -44,6 +44,7 @@ export default function NewLinkForm({ categories, toggle }) {
   return (
     <>
       <Container className="m-3 p-3 border rounded">
+        <Button close onClick={() => toggle(null)} />
         <h4 className="text-center">New Link Form</h4>
         <Form className="pt-2" onSubmit={submitLink}>
           <FormGroup>
