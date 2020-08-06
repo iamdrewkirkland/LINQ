@@ -68,12 +68,25 @@ export default function LinkList() {
       text: "Title",
       sort: true,
       headerAlign: "center",
+      // formatter: console.log
+      formatter: (title, row)=>(
+        <a href={`${row.url}`} target="blank">
+         {title}
+        </a>
+      ),
+
+    },
+    {
+      dataField: "url",
+      text: "URL",
+      hidden: true,
     },
     {
       dataField: "createDate",
       text: "Date Added",
       sort: true,
       headerAlign: "center",
+      formatter: (date)=>moment(date).format("llll"),
     },
     {
       dataField: "manage",
@@ -98,12 +111,14 @@ export default function LinkList() {
         ""
       ),
       category: `${link.category ? link.category.name : ""}`,
-      title: (
-        <a href={`${link.url}`} target="blank">
-          {link.title}{" "}
-        </a>
-      ),
-      createDate: moment(link.createDate).format("llll"),
+      title: link.title,
+      // title: (
+      //   <a href={`${link.url}`} target="blank">
+      //     {link.title}{" "}
+      //   </a>
+      // ),
+      url: link.url,
+      createDate: link.createDate,
       manage: (
         <>
           <Button
