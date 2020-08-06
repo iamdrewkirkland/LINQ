@@ -9,6 +9,7 @@ import {
   Badge,
   CardColumns,
   CardLink,
+  Jumbotron,
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -32,10 +33,27 @@ export default function Main() {
   function MainDisplay() {
     if (categories.length === 0 && !isLoading) {
       return (
-        <>
-          Welcome to LINQ.
-          <p>Add some Links and Categories to get started!</p>
-        </>
+        <Jumbotron>
+          <h1>Welcome to LINQ!</h1>
+          <p className="lead">
+            You must be new. As you add links and categories they will appear
+            here.
+          </p>
+          <hr className="my-1" />
+          <p /> Categories are sorted by favorite status and will display the
+          title of the links they contain. You can click the detail button
+          (arrow) to see a detail view of the category and it's links.
+          <p>
+            Any categories that are marked as public can be accessed by the
+            category detail link. Check out this public category for an example:{" "}
+            <a
+              href="http://localhost:3000/iamdrewkirkland/Programming%20Links"
+              target="blank"
+            >
+              http://localhost:3000/iamdrewkirkland/Programming%20Links
+            </a>
+          </p>
+        </Jumbotron>
       );
     }
     return (
