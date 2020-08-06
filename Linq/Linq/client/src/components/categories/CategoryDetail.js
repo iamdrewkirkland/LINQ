@@ -59,13 +59,24 @@ export default function CategoryDetail() {
       dataField: "title",
       text: "Title",
       sort: true,
-      headerAlign: 'center'
+      headerAlign: "center",
+      formatter: (title, row) => (
+        <a href={`${row.url}`} target="blank">
+          {title}
+        </a>
+      ),
+    },
+    {
+      dataField: "url",
+      text: "URL",
+      hidden: true,
     },
     {
       dataField: "createDate",
       text: "Date Added",
       sort: true,
-      headerAlign: 'center'
+      headerAlign: 'center',
+      formatter: (date) => moment(date).format("llll")
     },
   ];
 
@@ -84,12 +95,9 @@ export default function CategoryDetail() {
         ) : (
           ""
         ),
-        title: (
-          <a href={`${link.url}`} target="blank">
-            {link.title}{" "}
-          </a>
-        ),
-        createDate: moment(link.createDate).format("llll"),
+        title: link.title,
+        url: link.url,
+        createDate: link.createDate,
       };
       data.push(currentLink);
     }
