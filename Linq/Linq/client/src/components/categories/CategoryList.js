@@ -16,6 +16,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import EditCategoryForm from "./EditCategoryForm";
+import MissingCategories from "./MissingCategories";
 
 export default function CategoryList() {
   const { categories, deleteCategory, getCategories } = useContext(
@@ -24,9 +25,10 @@ export default function CategoryList() {
 
   const [collapseState, setCollapseState] = useState(null);
   const [categoryEdit, setCategoryEdit] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getCategories();
+    getCategories().then(() => setIsLoading(false));
     // eslint-disable-next-line
   }, []);
 
@@ -54,6 +56,67 @@ export default function CategoryList() {
     }
   }
 
+  function CategoryDisplay() {
+    if (categories.length === 0 && !isLoading) {
+      return <MissingCategories />;
+    }
+    return (
+      <Row className="d-flex">
+        {categories.map((category) => (
+          <Card
+            key={category.id}
+            className="m-3"
+            outline
+            style={{ borderColor: `${category.color}` }}
+          >
+            <CardBody>
+              <CardTitle>
+                <h3>
+                  {category.name}{" "}
+                  {category.isFavorite ? (
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      size="sm"
+                      style={{ color: "goldenrod" }}
+                    />
+                  ) : null}{" "}
+                </h3>
+                <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
+              </CardTitle>
+              <Row className="">
+                <Button
+                  className="ml-1"
+                  outline
+                  size="sm"
+                  color="secondary"
+                  name="edit"
+                  onClick={() => {
+                    setCollapseState("edit");
+                    setCategoryEdit(category);
+                  }}
+                >
+                  <FontAwesomeIcon size="sm" icon={faEdit} />
+                </Button>
+                <Button
+                  className="ml-1"
+                  outline
+                  size="sm"
+                  color="danger"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    confirmDelete(category);
+                  }}
+                >
+                  <FontAwesomeIcon size="sm" icon={faTrash} />
+                </Button>
+              </Row>
+            </CardBody>
+          </Card>
+        ))}
+      </Row>
+    );
+  }
+
   return (
     <>
       <Container>
@@ -70,59 +133,7 @@ export default function CategoryList() {
         <Collapse isOpen={collapseState}>
           <ControlCollapse />
         </Collapse>
-        <Row className="d-flex">
-          {categories.map((category) => (
-            <Card
-              key={category.id}
-              className="m-3"
-              outline
-              style={{ borderColor: `${category.color}` }}
-            >
-              <CardBody>
-                <CardTitle>
-                  <h3>
-                    {category.name}{" "}
-                    {category.isFavorite ? (
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        size="sm"
-                        style={{ color: "goldenrod" }}
-                      />
-                    ) : null}{" "}
-                  </h3>
-                  <Badge>{category.isPublic ? "Public" : "Private"}</Badge>
-                </CardTitle>
-                <Row className="">
-                  <Button
-                    className="ml-1"
-                    outline
-                    size="sm"
-                    color="secondary"
-                    name="edit"
-                    onClick={() => {
-                      setCollapseState("edit");
-                      setCategoryEdit(category);
-                    }}
-                  >
-                    <FontAwesomeIcon size="sm" icon={faEdit} />
-                  </Button>
-                  <Button
-                    className="ml-1"
-                    outline
-                    size="sm"
-                    color="danger"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      confirmDelete(category);
-                    }}
-                  >
-                    <FontAwesomeIcon size="sm" icon={faTrash} />
-                  </Button>
-                </Row>
-              </CardBody>
-            </Card>
-          ))}
-        </Row>
+        <CategoryDisplay />
       </Container>
     </>
   );

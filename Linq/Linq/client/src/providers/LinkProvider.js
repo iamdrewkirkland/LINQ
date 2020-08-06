@@ -11,7 +11,7 @@ export const LinkProvider = (props) => {
   const apiUrl = "/api/link";
 
   const getLinks = () => {
-    getToken().then((token) =>
+    return getToken().then((token) =>
       fetch(apiUrl, {
         method: "GET",
         headers: {

@@ -9,7 +9,7 @@ export const CategoryProvider = (props) => {
   const apiUrl = "/api/category";
 
   const getCategories = () => {
-    getToken().then((token) =>
+    return getToken().then((token) =>
       fetch(apiUrl, {
         method: "GET",
         headers: {

@@ -20,9 +20,8 @@ export default function LinkList() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getLinks();
     getCategories();
-    setIsLoading(false);
+    getLinks().then(() => setIsLoading(false));
     // eslint-disable-next-line
   }, []);
 
@@ -136,7 +135,7 @@ export default function LinkList() {
         </>
       ),
     };
-    data.push(currentLink);
+    return data.push(currentLink);
   });
 
   return (
@@ -166,7 +165,6 @@ export default function LinkList() {
             bootstrap4={true}
             condensed={true}
             hover={true}
-            noDataIndication={"Add a link to get started!"}
           />
         )}
       </Container>

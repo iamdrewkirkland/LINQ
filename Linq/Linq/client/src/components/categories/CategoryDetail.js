@@ -101,6 +101,7 @@ export default function CategoryDetail() {
       };
       data.push(currentLink);
     }
+    return null
   });
 
   return (
