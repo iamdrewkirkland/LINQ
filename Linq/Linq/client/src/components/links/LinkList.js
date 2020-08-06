@@ -15,16 +15,14 @@ import EditLinkForm from "./EditLinkForm";
 export default function LinkList() {
   const { links, getLinks, deleteLink } = useContext(LinkContext);
   const { categories, getCategories } = useContext(CategoryContext);
-
-  // const [isOpen, setIsOpen] = useState(false);
-  // const toggle = () => setIsOpen(!isOpen);
-
   const [collapseState, setCollapseState] = useState(null);
   const [linkEdit, setLinkEdit] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getLinks();
     getCategories();
+    setIsLoading(false);
     // eslint-disable-next-line
   }, []);
 
@@ -68,13 +66,11 @@ export default function LinkList() {
       text: "Title",
       sort: true,
       headerAlign: "center",
-      // formatter: console.log
-      formatter: (title, row)=>(
+      formatter: (title, row) => (
         <a href={`${row.url}`} target="blank">
-         {title}
+          {title}
         </a>
       ),
-
     },
     {
       dataField: "url",
@@ -86,7 +82,7 @@ export default function LinkList() {
       text: "Date Added",
       sort: true,
       headerAlign: "center",
-      formatter: (date)=>moment(date).format("llll"),
+      formatter: (date) => moment(date).format("llll"),
     },
     {
       dataField: "manage",
@@ -112,11 +108,6 @@ export default function LinkList() {
       ),
       category: `${link.category ? link.category.name : ""}`,
       title: link.title,
-      // title: (
-      //   <a href={`${link.url}`} target="blank">
-      //     {link.title}{" "}
-      //   </a>
-      // ),
       url: link.url,
       createDate: link.createDate,
       manage: (
@@ -165,7 +156,9 @@ export default function LinkList() {
         <Collapse isOpen={collapseState}>
           <ControlCollapse />
         </Collapse>
-        {links.length > 0 ? (
+        {links.length === 0 && !isLoading ? (
+          <MissingLinks />
+        ) : (
           <BootstrapTable
             keyField="id"
             data={data}
@@ -175,8 +168,6 @@ export default function LinkList() {
             hover={true}
             noDataIndication={"Add a link to get started!"}
           />
-        ) : (
-          <MissingLinks />
         )}
       </Container>
     </>
